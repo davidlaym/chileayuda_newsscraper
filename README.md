@@ -1,4 +1,4 @@
-# ChileAuyuda.cl - Web Scraper
+# ChileAyuda.cl - Web Scraper
 
 Este scraper tiene como objetivo centralizar noticias de varias fuentes en un solo
 origen para luego poder procesar y difundir a distintos sistemas.
