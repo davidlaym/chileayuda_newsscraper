@@ -17,8 +17,6 @@
     "bluebird": "^3.4.6",
     "cheerio": "^0.22.0",
     "lodash": "^4.16.4",
-    "microprofiler": "^0.1.1",
-    "nodemailer": "^0.7.1",
     "request": "^2.75.0",
     "request-promise": "^4.1.1"
   },
