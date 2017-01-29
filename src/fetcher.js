@@ -2,7 +2,7 @@ const cheerio = require('cheerio')
 // const _ = require('lodash');
 const rq = require('request-promise')
 
-const userAgent = 'ChileAyuda.com Web Scraper - ¿Porque no tienen RSS?';
+const userAgent = 'ChileAyuda.com Web Scraper - ¿Porque no tienen RSS?'
 
 exports = module.exports = {
   fetchHtml,

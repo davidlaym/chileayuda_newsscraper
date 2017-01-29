@@ -27,14 +27,16 @@ describe('Controller', () => {
         })
 
     })
-    it('throws when no source are given', () => {
+    it('throws when no source are given', done => {
       const controller = createController()
-      try {
-        controller.checkValidSource({})
-        should.fail('there was no exception thrown')
-      } catch (err) {
-
-      }
+      controller.checkValidSource()
+        .then(() => {
+          should.fail('there was no exception thrown')
+          done()
+        })
+        .catch(() => {
+          done()
+        })
     })
   })
 
