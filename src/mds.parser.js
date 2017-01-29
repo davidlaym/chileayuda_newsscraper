@@ -8,7 +8,7 @@ exports = module.exports = {
 
 function _parser($) {
   const $news = $('ul.list li')
-  const root = 'http://www.gobernacioncordillera.gov.cl'
+  const root = 'http://www.ministeriodesarrollosocial.gob.cl'
 
   const parsed = _.map($news, n => ({
     timestamp: $(n).find('time').attr('datetime'),
