@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 exports = module.exports = {
   name: 'GOBCORD',
   url: 'http://www.gobernacioncordillera.gov.cl/noticias/',

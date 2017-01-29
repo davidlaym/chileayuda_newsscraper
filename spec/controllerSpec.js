@@ -1,5 +1,5 @@
 
-// eslint-disable-no-unused-vars
+// eslint-disable-next-line no-unused-vars
 const should = require('should')
 const cheerio = require('cheerio')
 // let sinon = require('sinon')
@@ -87,6 +87,7 @@ describe('Controller', () => {
         } else {
           flag = 'invalid markup: ' + $.html()
         }
+        return { parsed: {}, follow: [] }
       }
       const controller = createController(null, null, parserDef)
       controller.scrape({source: 'VALID'})
@@ -102,8 +103,8 @@ describe('Controller', () => {
     it('when valid, send parsed content to writer', done => {
       let flag = false
       const writer = generateFakeForWriter()
-      writer.write = (content) => {
-        if (content && content.parsed) {
+      writer.write = (filename, content) => {
+        if (content && content.title === 'test') {
           flag = true
         }
       }
@@ -121,7 +122,7 @@ describe('Controller', () => {
 
   it('when valid, resolves to a string containing the generated filename', done => {
     const controller = createController()
-    controller.scrape({source: 'VALID'})
+    controller.scrape({source: 'VALID', output: 'full/path/to/file'})
       .then((filename) => {
         filename.should.equal('full/path/to/file')
         done()
@@ -144,14 +145,14 @@ describe('Controller', () => {
       {
         name: 'VALID',
         url: 'http://valid.url.test',
-        parser: ($) => ({ parsed: true })
+        parser: ($) => ({ parsed: { title: 'test' }, follow: [] })
       }
     ]
   }
   function generateFakeForWriter() {
     return {
-      write(content) {
-        return Promise.resolve('full/path/to/file')
+      write(filename, content) {
+        return Promise.resolve(filename)
       }
     }
   }

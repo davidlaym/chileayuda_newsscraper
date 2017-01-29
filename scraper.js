@@ -1,11 +1,15 @@
-const fetcher = require('./lib/fetcher')
-const controllerBuilder = require('./lib/controller')
+const fetcher = require('./src/fetcher')
+const controllerBuilder = require('./src/controller')
+const writer = require('./src/writer')
 const _ = require('lodash')
 // const config = require('./appConfig.json');
 const argv = require('yargs')
-            .usage('Usage: $0 --source [source name] \n Check Readme.md for currently supported sources')
+            .usage('Usage: $0 -s <source-name> -o <file-path>', 'Check Readme.md for currently supported sources')
             .alias('s', 'source')
-            .demandOption(['source'])
+            .nargs('s', 1)
+            .alias('o', 'output')
+            .nargs('o', 1)
+            .demandOption(['s', 'o'])
             .argv
 
 
@@ -16,18 +20,19 @@ const parserNames = [
 ]
 
 // load child routers
-const parsers = _(parserNames)
-  .chain()
-  .map(n => require(`./src/${n}.parser.js`))
-  .value()
+const parsers = _.map(parserNames, n => require(`./src/${n}.parser.js`))
 
-const controller = controllerBuilder.build(fetcher, parsers)
+const controller = controllerBuilder(fetcher, writer, parsers)
 
 const chainParams = {
-  source: argv.source
+  source: argv.source,
+  output: argv.output
 }
 
 Promise
   .resolve(chainParams)
-  .then(controller.scrape)
+  .then(controller.scrape.bind(controller))
+  .catch(err => {
+    console.log('unhandled error', err)
+  })
 

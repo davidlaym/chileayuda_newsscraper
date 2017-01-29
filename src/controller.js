@@ -25,6 +25,8 @@ class Controller {
   }
 
   scrape(params) {
+    console.log('Initializing scraper')
+
     params = Object.assign({}, params)
     params.fetcher = this.fetcher
     params.parsers = this.parsers
@@ -51,6 +53,7 @@ class Controller {
     const source = _.find(params.parsers, {name: params.source})
     if (source) {
       params.source = source
+      console.log(`Selected source: ${source.name}`)
     } else {
       throw {message: `invalid source: ${params.source}`}
     }
@@ -58,8 +61,8 @@ class Controller {
   }
 
   _fetchUrl(params) {
-
     const url = params.source.url
+    console.log(`fetching url: ${url}`)
     return params.fetcher
       .fetchHtml(url)
       .then($ => {
@@ -67,13 +70,16 @@ class Controller {
         return params
       })
   }
+
   _parseHtml(params) {
+    console.log('parsing ...')
     params.parsed = params.source.parser(params.$)
     return params
   }
 
   _generateFile(params) {
-    return params.writer.write(params.parsed)
+    console.log(`writing to ${params.output}`)
+    return params.writer.write(params.output, params.parsed.parsed)
   }
 
 }
