@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 exports = module.exports = {
   name: 'GOBCORD',
   url: 'http://www.gobernacioncordillera.gov.cl/noticias/',
@@ -5,7 +7,15 @@ exports = module.exports = {
 }
 
 function _parser($) {
-  return {
 
+  return {
+  //   structure: {},
+  //   follow: [
+  //     {
+  //       url: '',
+  //       parser: ($) => {
+  //       }
+  //     }
+  //   ],
   }
 }
