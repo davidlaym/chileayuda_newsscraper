@@ -68,7 +68,7 @@ describe('MDS Parser', () => {
     })
 
 
-    it('parses correct timestamp', () => {
+    it('parses timestamp', () => {
       const $ = cheerio.load(htmlBlock)
       const parsed = parser.parser($)
 
@@ -77,7 +77,7 @@ describe('MDS Parser', () => {
       parsed.parsed[1].timestamp.should.equal('2017-01-27 21:30:36')
     })
 
-    it('parses correct title', () => {
+    it('parses title', () => {
       const $ = cheerio.load(htmlBlock)
       const parsed = parser.parser($)
 
@@ -87,7 +87,7 @@ describe('MDS Parser', () => {
     })
 
 
-    it('parses correct thumbnail', () => {
+    it('parses thumbnail', () => {
       const $ = cheerio.load(htmlBlock)
       const parsed = parser.parser($)
 
@@ -99,7 +99,7 @@ describe('MDS Parser', () => {
     })
 
 
-    it('parses correct summary', () => {
+    it('parses summary', () => {
       const $ = cheerio.load(htmlBlock)
       const parsed = parser.parser($)
 
@@ -110,7 +110,7 @@ describe('MDS Parser', () => {
       parsed.parsed[1].summary.should.equal('El viaje se enmarcó en la entrega de ayuda a quienes han resultado afectados por los incendios que afectan el centro sur del país, en una acción coordinada  por la Presidenta Michelle Bachelet junto con todas las entidades de Gobierno.')
     })
 
-    it('parses correct cannonical link', () => {
+    it('parses cannonical link', () => {
       const $ = cheerio.load(htmlBlock)
       const parsed = parser.parser($)
 
@@ -121,7 +121,27 @@ describe('MDS Parser', () => {
       parsed.parsed[1].cannonical.should.equal('http://www.gobernacioncordillera.gov.cl/noticias/2017/01/27/subsecretario-de-servicios-sociales-visito-zona-afectada-de-marchigüe')
     })
 
+    it('parses follow links', () => {
+      const $ = cheerio.load(htmlBlock)
+      const parsed = parser.parser($)
 
+      parsed.parsed.should.not.be.null()
+      // eslint-disable-next-line max-len
+      parsed.follow[0].url.should.equal('http://www.gobernacioncordillera.gov.cl/noticias/2017/01/28/mds-encabeza-operativo-social-en-localidad-de-los-aromos-en-el-maule')
+      // eslint-disable-next-line max-len
+      parsed.follow[1].url.should.equal('http://www.gobernacioncordillera.gov.cl/noticias/2017/01/27/subsecretario-de-servicios-sociales-visito-zona-afectada-de-marchigüe')
+    })
+
+    it('sets follow parser', () => {
+      const $ = cheerio.load(htmlBlock)
+      const parsed = parser.parser($)
+
+      parsed.parsed.should.not.be.null()
+      // eslint-disable-next-line max-len
+      parsed.follow[0].parser.should.be.type('function')
+      // eslint-disable-next-line max-len
+      parsed.follow[1].parser.should.be.type('function')
+    })
   })
 
 })
