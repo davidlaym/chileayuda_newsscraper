@@ -5,7 +5,7 @@
   "main": "scraper.js",
   "scripts": {
     "test": "mocha spec",
-    "start": "node scraper.js" 
+    "start": "node scraper.js"
   },
   "keywords": [
     "scraper",
@@ -18,9 +18,13 @@
     "cheerio": "^0.22.0",
     "lodash": "^4.16.4",
     "request": "^2.75.0",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "yargs": "^6.6.0"
   },
   "devDependencies": {
+    "eslint": "^3.14.1",
+    "eslint-config-nodejs": "^1.1.0",
+    "eslint-plugin-import": "^2.2.0",
     "mocha": "^3.1.2",
     "should": "^11.1.1",
     "sinon": "^1.17.6"
