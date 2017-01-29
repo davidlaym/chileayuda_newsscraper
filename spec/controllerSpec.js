@@ -8,16 +8,14 @@ const controllerBuilder = require('../src/controller')
 
 describe('Controller', () => {
 
-  function createController(fetcher) {
+  function createController(fetcher, parserDef) {
     if (!fetcher) {
       fetcher = generateFakeForFetcher()
     }
-    return controllerBuilder(fetcher, [
-      {
-        name: 'VALID',
-        url: 'http://valid.url.test'
-      }
-    ])
+    if (!parserDef) {
+      parserDef = generateFakeForParser()
+    }
+    return controllerBuilder(fetcher, parserDef)
   }
 
   describe('scrape', () => {
@@ -61,12 +59,32 @@ describe('Controller', () => {
       const fetcher = {
         fetchHtml(url) {
           flag = url
+          return Promise.resolve(cheerio.load('<div></div>'))
         }
       }
       const controller = createController(fetcher)
       controller.scrape({source: 'VALID'})
         .then(() => {
           flag.should.equal('http://valid.url.test')
+          done()
+        })
+        .catch((err) => {
+          done('there was an unhandled exception in the promise chain: ' + err.message)
+        })
+    })
+
+    it('when valid, send fetched html to parser', done => {
+      let flag = false
+      const parserDef = generateFakeForParser()
+      parserDef[0].parser = ($) => {
+        if ($.html() === '<div></div>') {
+          flag = true
+        }
+      }
+      const controller = createController(null, parserDef)
+      controller.scrape({source: 'VALID'})
+        .then(() => {
+          flag.should.be.true()
           done()
         })
         .catch((err) => {
@@ -81,5 +99,17 @@ describe('Controller', () => {
         return Promise.resolve(cheerio.load('<div></div>'))
       }
     }
+  }
+
+  function generateFakeForParser() {
+    return [
+      {
+        name: 'VALID',
+        url: 'http://valid.url.test',
+        parser: ($) => {
+
+        }
+      }
+    ]
   }
 })

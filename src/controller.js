@@ -41,8 +41,15 @@ class Controller {
   _fetchUrl(params) {
 
     const url = params.source.url
-    params.fetcher.fetchHtml(url)
-
+    return params.fetcher
+      .fetchHtml(url)
+      .then($ => {
+        params.$ = $
+        return params
+      })
+  }
+  _parseHtml(params) {
+    params.parsed = params.source.parser(params.$)
     return params
   }
 
@@ -56,6 +63,7 @@ class Controller {
       .then(this._checkInvalidParams)
       .then(this._shouldBeValidSource)
       .then(this._fetchUrl)
+      .then(this._parseHtml)
 
   }
 }
