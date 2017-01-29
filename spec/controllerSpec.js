@@ -8,8 +8,11 @@ const controllerBuilder = require('../src/controller')
 
 describe('Controller', () => {
 
-  function createController() {
-    return controllerBuilder(generateFakeForFetcher())
+  function createController(fetcher) {
+    if (!fetcher) {
+      fetcher = generateFakeForFetcher()
+    }
+    return controllerBuilder(fetcher)
   }
 
   describe('Validates Sources', () => {
@@ -19,8 +22,7 @@ describe('Controller', () => {
 
       controller.checkValidSource()
         .then(() => {
-          should.fail('there was no exception thrown')
-          done()
+          done('exception expected, but none received')
         })
         .catch(() => {
           done()
@@ -29,13 +31,41 @@ describe('Controller', () => {
     })
     it('throws when no source are given', done => {
       const controller = createController()
-      controller.checkValidSource()
+      controller.checkValidSource({})
         .then(() => {
-          should.fail('there was no exception thrown')
-          done()
+          done('exception expected, but none received')
         })
         .catch(() => {
           done()
+        })
+    })
+
+    it('throws when invalid source is given', done => {
+      const controller = createController()
+      controller.checkValidSource({source: 'XYH'})
+        .then(() => {
+          done('exception expected, but none received')
+        })
+        .catch((err) => {
+          done()
+        })
+    })
+
+    it('when valid, send url to fetcher', done => {
+      let flag = ''
+      const fetcher = {
+        fetchHtml(url) {
+          flag = url
+        }
+      }
+      const controller = createController(fetcher)
+      controller.checkValidSource({source: 'MDS'})
+        .then(() => {
+          flag.should.equal('http://www.ministeriodesarrollosocial.gob.cl/noticias/')
+          done()
+        })
+        .catch((err) => {
+          done('there was an unhandled exception in the promise chain: ' + err.message)
         })
     })
   })
