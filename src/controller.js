@@ -3,21 +3,40 @@ const _ = require('lodash')
 
 exports = module.exports = builder
 
-function builder(fetcher, parsers) {
-  return new Controller(fetcher, parsers)
+function builder(fetcher, writer, parsers) {
+  return new Controller(fetcher, writer, parsers)
 }
 
 class Controller {
 
-  constructor(fetcher, parsers) {
+  constructor(fetcher, writer, parsers) {
     if (!fetcher) {
       throw { message: '"fetcher" parameter is required. null given.' }
     }
     if (!parsers || !parsers.length) {
       throw { message: '"parsers" parameter is required. null given.' }
     }
+    if (!writer) {
+      throw { message: '"writer" parameter is required. null given.' }
+    }
     this.fetcher = fetcher
     this.parsers = parsers
+    this.writer = writer
+  }
+
+  scrape(params) {
+    params = Object.assign({}, params)
+    params.fetcher = this.fetcher
+    params.parsers = this.parsers
+    params.writer = this.writer
+
+    return Promise
+      .resolve(params)
+      .then(this._checkInvalidParams)
+      .then(this._shouldBeValidSource)
+      .then(this._fetchUrl)
+      .then(this._parseHtml)
+      .then(this._generateFile)
   }
 
   _checkInvalidParams(params) {
@@ -53,18 +72,9 @@ class Controller {
     return params
   }
 
-  scrape(params) {
-    params = Object.assign({}, params)
-    params.fetcher = this.fetcher
-    params.parsers = this.parsers
-
-    return Promise
-      .resolve(params)
-      .then(this._checkInvalidParams)
-      .then(this._shouldBeValidSource)
-      .then(this._fetchUrl)
-      .then(this._parseHtml)
-
+  _generateFile(params) {
+    return params.writer.write(params.parsed)
   }
+
 }
 

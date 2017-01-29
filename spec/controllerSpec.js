@@ -8,14 +8,19 @@ const controllerBuilder = require('../src/controller')
 
 describe('Controller', () => {
 
-  function createController(fetcher, parserDef) {
+  function createController(fetcher, writer, parserDef) {
     if (!fetcher) {
       fetcher = generateFakeForFetcher()
     }
+
+    if (!writer) {
+      writer = generateFakeForWriter()
+    }
+
     if (!parserDef) {
       parserDef = generateFakeForParser()
     }
-    return controllerBuilder(fetcher, parserDef)
+    return controllerBuilder(fetcher, writer, parserDef)
   }
 
   describe('scrape', () => {
@@ -79,9 +84,11 @@ describe('Controller', () => {
       parserDef[0].parser = ($) => {
         if ($.html() === '<div></div>') {
           flag = true
+        } else {
+          flag = 'invalid markup: ' + $.html()
         }
       }
-      const controller = createController(null, parserDef)
+      const controller = createController(null, null, parserDef)
       controller.scrape({source: 'VALID'})
         .then(() => {
           flag.should.be.true()
@@ -91,6 +98,37 @@ describe('Controller', () => {
           done('there was an unhandled exception in the promise chain: ' + err.message)
         })
     })
+
+    it('when valid, send parsed content to writer', done => {
+      let flag = false
+      const writer = generateFakeForWriter()
+      writer.write = (content) => {
+        if (content && content.parsed) {
+          flag = true
+        }
+      }
+      const controller = createController(null, writer, null)
+      controller.scrape({source: 'VALID'})
+        .then(() => {
+          flag.should.be.true()
+          done()
+        })
+        .catch((err) => {
+          done('there was an unhandled exception in the promise chain: ' + err.message)
+        })
+    })
+  })
+
+  it('when valid, resolves to a string containing the generated filename', done => {
+    const controller = createController()
+    controller.scrape({source: 'VALID'})
+      .then((filename) => {
+        filename.should.equal('full/path/to/file')
+        done()
+      })
+      .catch((err) => {
+        done('there was an unhandled exception in the promise chain: ' + err.message)
+      })
   })
 
   function generateFakeForFetcher() {
@@ -106,10 +144,15 @@ describe('Controller', () => {
       {
         name: 'VALID',
         url: 'http://valid.url.test',
-        parser: ($) => {
-
-        }
+        parser: ($) => ({ parsed: true })
       }
     ]
+  }
+  function generateFakeForWriter() {
+    return {
+      write(content) {
+        return Promise.resolve('full/path/to/file')
+      }
+    }
   }
 })
