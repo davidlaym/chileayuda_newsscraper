@@ -1,0 +1,30 @@
+{
+  "name": "chileayuda_scraper",
+  "version": "1.0.0",
+  "description": "News scraper for chileayuda.com",
+  "main": "scraper.js",
+  "scripts": {
+    "test": "mocha spec",
+    "start": "node scraper.js" 
+  },
+  "keywords": [
+    "scraper",
+    "chileayuda.com"
+  ],
+  "author": "davidlaym",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "cheerio": "^0.22.0",
+    "lodash": "^4.16.4",
+    "microprofiler": "^0.1.1",
+    "nodemailer": "^0.7.1",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.1.2",
+    "should": "^11.1.1",
+    "sinon": "^1.17.6"
+  }
+}
