@@ -8,17 +8,21 @@ const validSsources = {
   'MDS': 'http://www.ministeriodesarrollosocial.gob.cl/noticias/'
 }
 
-function builder(fetcher) {
-  return new Controller(fetcher)
+function builder(fetcher, parsers) {
+  return new Controller(fetcher, parsers)
 }
 
 class Controller {
 
-  constructor(fetcher) {
+  constructor(fetcher, parsers) {
     if (!fetcher) {
       throw { message: '"fetcher" parameter is required. null given.' }
     }
+    if (!parsers || !parsers.length) {
+      throw { message: '"parsers" parameter is required. null given.' }
+    }
     this.fetcher = fetcher
+    this.parsers = parsers
   }
 
   _checkInvalidParams(params) {
@@ -46,7 +50,7 @@ class Controller {
     return params
   }
 
-  checkValidSource(params) {
+  scrape(params) {
     params = Object.assign({}, params)
     params.fetcher = this.fetcher
 

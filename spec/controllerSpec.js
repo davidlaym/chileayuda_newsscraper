@@ -12,15 +12,20 @@ describe('Controller', () => {
     if (!fetcher) {
       fetcher = generateFakeForFetcher()
     }
-    return controllerBuilder(fetcher)
+    return controllerBuilder(fetcher, [
+      {
+        name: 'VALID',
+        url: 'http://valid.url.test'
+      }
+    ])
   }
 
-  describe('Validates Sources', () => {
+  describe('scrape', () => {
 
     it('throws when no params are given', done => {
       const controller = createController()
 
-      controller.checkValidSource()
+      controller.scrape()
         .then(() => {
           done('exception expected, but none received')
         })
@@ -31,7 +36,7 @@ describe('Controller', () => {
     })
     it('throws when no source are given', done => {
       const controller = createController()
-      controller.checkValidSource({})
+      controller.scrape({})
         .then(() => {
           done('exception expected, but none received')
         })
@@ -42,7 +47,7 @@ describe('Controller', () => {
 
     it('throws when invalid source is given', done => {
       const controller = createController()
-      controller.checkValidSource({source: 'XYH'})
+      controller.scrape({source: 'INVALID'})
         .then(() => {
           done('exception expected, but none received')
         })
@@ -59,9 +64,9 @@ describe('Controller', () => {
         }
       }
       const controller = createController(fetcher)
-      controller.checkValidSource({source: 'MDS'})
+      controller.scrape({source: 'VALID'})
         .then(() => {
-          flag.should.equal('http://www.ministeriodesarrollosocial.gob.cl/noticias/')
+          flag.should.equal('http://valid.url.test')
           done()
         })
         .catch((err) => {

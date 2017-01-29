@@ -1,5 +1,6 @@
 const fetcher = require('./lib/fetcher')
 const controllerBuilder = require('./lib/controller')
+const _ = require('lodash')
 // const config = require('./appConfig.json');
 const argv = require('yargs')
             .usage('Usage: $0 --source [source name] \n Check Readme.md for currently supported sources')
@@ -8,8 +9,19 @@ const argv = require('yargs')
             .argv
 
 
+//routes
+const parserNames = [
+  'mds',
+  'gobcord'
+]
 
-const controller = controllerBuilder.build(fetcher)
+// load child routers
+const parsers = _(parserNames)
+  .chain()
+  .map(n => require(`./src/${n}.parser.js`))
+  .value()
+
+const controller = controllerBuilder.build(fetcher, parsers)
 
 const chainParams = {
   source: argv.source
@@ -17,6 +29,5 @@ const chainParams = {
 
 Promise
   .resolve(chainParams)
-  .then(controller.checkValidSource)
   .then(controller.scrape)
 
