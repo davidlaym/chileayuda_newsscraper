@@ -1,5 +1,7 @@
 # ChileAyuda.cl - Web Scraper
 
+https://travis-ci.org/davidlaym/chileayuda_newsscraper.svg?branch=master
+
 Este scraper tiene como objetivo centralizar noticias de varias fuentes en un solo
 origen para luego poder procesar y difundir a distintos sistemas.
 
