@@ -1,5 +1,6 @@
 const Promise = require('bluebird')
 const fs = require('fs')
+const _ = require('lodash')
 
 exports = module.exports = {
   write
@@ -11,6 +12,7 @@ function write(filename, data) {
   .resolve({filename, data})
   .then(_ensureFileExists)
   .then(_readExisting)
+  .then(_consolidateFile)
   .then(_writeData)
 }
 
@@ -36,9 +38,17 @@ function _readExisting(params) {
   return p.promise
 }
 
+function _consolidateFile(params) {
+  const existing = params.existing
+  const parsed = params.data
+  const result = _.unionBy(parsed, existing, 'cannonical')
+  params.result = result
+  return params
+}
+
 function _writeData(params) {
   const p = Promise.defer()
-  const dataStr = JSON.stringify(params.data)
+  const dataStr = JSON.stringify(params.result)
   fs.writeFile(params.filename, dataStr, (err) => {
     if (!err) {
       p.resolve(params.filename)
