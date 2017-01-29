@@ -3,11 +3,6 @@ const _ = require('lodash')
 
 exports = module.exports = builder
 
-const validSsources = {
-  'GOBCORD': 'http://www.gobernacioncordillera.gov.cl/noticias/',
-  'MDS': 'http://www.ministeriodesarrollosocial.gob.cl/noticias/'
-}
-
 function builder(fetcher, parsers) {
   return new Controller(fetcher, parsers)
 }
@@ -34,8 +29,9 @@ class Controller {
   }
 
   _shouldBeValidSource(params) {
-    if (_.has(validSsources, params.source)) {
-
+    const source = _.find(params.parsers, {name: params.source})
+    if (source) {
+      params.source = source
     } else {
       throw {message: `invalid source: ${params.source}`}
     }
@@ -44,7 +40,7 @@ class Controller {
 
   _fetchUrl(params) {
 
-    const url = validSsources[params.source]
+    const url = params.source.url
     params.fetcher.fetchHtml(url)
 
     return params
@@ -53,6 +49,7 @@ class Controller {
   scrape(params) {
     params = Object.assign({}, params)
     params.fetcher = this.fetcher
+    params.parsers = this.parsers
 
     return Promise
       .resolve(params)
