@@ -41,7 +41,8 @@ function _readExisting(params) {
 function _consolidateFile(params) {
   const existing = params.existing
   const parsed = params.data
-  const result = _.unionBy(parsed, existing, 'cannonical')
+  let result = _.unionBy(parsed, existing, 'cannonical')
+  result = _.orderBy(result, 'timestamp', 'desc')
   params.result = result
   return params
 }
