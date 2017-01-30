@@ -2,3 +2,5 @@ node_modules
 .vscode
 appConfig.json
 *.log*
+.idea
+*.iml
