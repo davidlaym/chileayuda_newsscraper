@@ -16,7 +16,8 @@ const argv = require('yargs')
 //routes
 const parserNames = [
   'mds',
-  'gobcord'
+  'gobcord',
+  'gobtalca'
 ]
 
 // load child routers
