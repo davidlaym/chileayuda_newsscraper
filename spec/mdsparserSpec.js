@@ -116,9 +116,9 @@ describe('MDS Parser', () => {
 
       parsed.parsed.should.not.be.null()
       // eslint-disable-next-line max-len
-      parsed.parsed[0].cannonical.should.equal('http://www.gobernacioncordillera.gov.cl/noticias/2017/01/28/mds-encabeza-operativo-social-en-localidad-de-los-aromos-en-el-maule')
+      parsed.parsed[0].cannonical.should.equal('http://www.ministeriodesarrollosocial.gob.cl/noticias/2017/01/28/mds-encabeza-operativo-social-en-localidad-de-los-aromos-en-el-maule')
       // eslint-disable-next-line max-len
-      parsed.parsed[1].cannonical.should.equal('http://www.gobernacioncordillera.gov.cl/noticias/2017/01/27/subsecretario-de-servicios-sociales-visito-zona-afectada-de-marchigüe')
+      parsed.parsed[1].cannonical.should.equal('http://www.ministeriodesarrollosocial.gob.cl/noticias/2017/01/27/subsecretario-de-servicios-sociales-visito-zona-afectada-de-marchigüe')
     })
 
     it('parses follow links', () => {
@@ -127,9 +127,9 @@ describe('MDS Parser', () => {
 
       parsed.parsed.should.not.be.null()
       // eslint-disable-next-line max-len
-      parsed.follow[0].url.should.equal('http://www.gobernacioncordillera.gov.cl/noticias/2017/01/28/mds-encabeza-operativo-social-en-localidad-de-los-aromos-en-el-maule')
+      parsed.follow[0].url.should.equal('http://www.ministeriodesarrollosocial.gob.cl/noticias/2017/01/28/mds-encabeza-operativo-social-en-localidad-de-los-aromos-en-el-maule')
       // eslint-disable-next-line max-len
-      parsed.follow[1].url.should.equal('http://www.gobernacioncordillera.gov.cl/noticias/2017/01/27/subsecretario-de-servicios-sociales-visito-zona-afectada-de-marchigüe')
+      parsed.follow[1].url.should.equal('http://www.ministeriodesarrollosocial.gob.cl/noticias/2017/01/27/subsecretario-de-servicios-sociales-visito-zona-afectada-de-marchigüe')
     })
 
     it('sets follow parser', () => {
