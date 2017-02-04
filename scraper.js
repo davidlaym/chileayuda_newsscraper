@@ -18,6 +18,7 @@ const parserNames = [
   'mds',
   'gobcord',
   'gobtalca',
+  'minvu',
   'minsal'
 ]
 
