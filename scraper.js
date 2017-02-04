@@ -18,7 +18,8 @@ const parserNames = [
   'mds',
   'gobcord',
   'gobtalca',
-  'minvu'
+  'minvu',
+  'minsal'
 ]
 
 // load child routers
