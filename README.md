@@ -1,4 +1,4 @@
-# ChileAyuda.cl - Web Scraper
+# ChileAyuda.com - Web Scraper
 
 [![Build Status](https://travis-ci.org/davidlaym/chileayuda_newsscraper.svg?branch=master)](https://travis-ci.org/davidlaym/chileayuda_newsscraper)
 
@@ -19,7 +19,7 @@ npm install
 npm run test
 
 # Ejecutar (prod)
-node scraper.js --source <source-name>
+node scraper.js -s <source-name> -o </path/to/file.json>
 
 ```
 
@@ -27,7 +27,7 @@ node scraper.js --source <source-name>
 ``` bash 
 # Una ejecución por fuente de datos
 
-node scraper.js --source <source-name>
+node scraper.js -s <source-name> -o </path/to/file.json>
 
 # El resultado es que genera un archivo en disco con el contenido
 # parseado en JSON
