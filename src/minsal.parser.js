@@ -26,6 +26,7 @@ function _parser($) {
   const root = ''
 
   const parsed = _.map($news, n => ({
+    source: 'Ministerio de Salud',
     timestamp: DateToTimeStamp($(n).find('div.texto span.meta').text().trim()),
     title: $(n).find('div.texto h4.title').text().trim(),
     thumbnail: root + $(n).find('img').attr('src'),

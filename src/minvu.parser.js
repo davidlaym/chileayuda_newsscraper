@@ -25,6 +25,7 @@ function _parser($) {
   const $news = $('div.noticias_area')
   const root = 'http://www.minvu.cl/'
   const parsed = _.map($news, n => ({
+    source: 'Minvu',
     timestamp: DateToTimeStamp($(n).find('p.date').text().trim()),
     title: $(n).find('h1').text().trim(),
     thumbnail: root + $(n).find('img').attr('src'),
