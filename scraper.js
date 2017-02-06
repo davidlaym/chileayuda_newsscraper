@@ -1,3 +1,4 @@
+const fs = require('fs')
 const fetcher = require('./src/fetcher')
 const controllerBuilder = require('./src/controller')
 const writer = require('./src/writer')
@@ -25,7 +26,9 @@ const parserNames = [
 // load child routers
 const parsers = _.map(parserNames, n => require(`./src/${n}.parser.js`))
 
-const controller = controllerBuilder(fetcher, writer, parsers)
+const filter = JSON.parse(fs.readFileSync('whitelist.json', 'utf8'))
+
+const controller = controllerBuilder(fetcher, writer, parsers, filter)
 
 const chainParams = {
   source: argv.source,
