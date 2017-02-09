@@ -26,6 +26,7 @@ function _parser($) {
   const root = 'http://www.gobernacioncordillera.gov.cl'
 
   const parsed = _.map($news, n => ({
+    source: 'Gobernación Cordillera',
     timestamp: DateToTimeStamp($(n).find('div.texto span.meta').text().trim()),
     title: $(n).find('div.texto h4.title a').text().trim(),
     thumbnail: root + $(n).find('img').attr('src'),

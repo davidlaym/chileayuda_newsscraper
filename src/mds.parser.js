@@ -11,6 +11,7 @@ function _parser($) {
   const root = 'http://www.ministeriodesarrollosocial.gob.cl'
 
   const parsed = _.map($news, n => ({
+    source: 'Ministerio Desarrollo Social',
     timestamp: $(n).find('time').attr('datetime'),
     title: $(n).find('h3 a').text().trim(),
     thumbnail: $(n).find('img').attr('src'),

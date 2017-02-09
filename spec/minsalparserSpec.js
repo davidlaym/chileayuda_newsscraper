@@ -77,6 +77,12 @@ describe('Minsal Parser', () => {
       parsed.parsed.length.should.equal(3)
     })
 
+    it('get source', () => {
+      const $ = cheerio.load(htmlBlock)
+      const parsed = parser.parser($)
+
+      parsed.parsed[0].source.should.equal('Ministerio de Salud')
+    })
 
     it('parses timestamp', () => {
       const $ = cheerio.load(htmlBlock)

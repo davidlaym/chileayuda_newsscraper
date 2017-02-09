@@ -154,6 +154,13 @@ describe('GobCoord Parser', () => {
       parsed.parsed.length.should.equal(10)
     })
 
+    it('get source', () => {
+      const $ = cheerio.load(htmlBlock)
+      const parsed = parser.parser($)
+
+      parsed.parsed[0].source.should.equal('Gobernación Cordillera')
+    })
+
     it('parses timestamp', () => {
       const $ = cheerio.load(htmlBlock)
       const parsed = parser.parser($)

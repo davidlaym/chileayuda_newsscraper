@@ -67,6 +67,12 @@ describe('MDS Parser', () => {
       parsed.parsed.length.should.equal(2)
     })
 
+    it('get source', () => {
+      const $ = cheerio.load(htmlBlock)
+      const parsed = parser.parser($)
+
+      parsed.parsed[0].source.should.equal('Ministerio Desarrollo Social')
+    })
 
     it('parses timestamp', () => {
       const $ = cheerio.load(htmlBlock)

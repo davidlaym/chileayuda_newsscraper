@@ -44,6 +44,12 @@ describe('Minvu Parser', () => {
       parsed.parsed.length.should.equal(10)
     })
 
+    it('get source', () => {
+      const $ = cheerio.load(htmlBlock)
+      const parsed = parser.parser($)
+
+      parsed.parsed[0].source.should.equal('Minvu')
+    })
 
     it('parses timestamp', () => {
       const $ = cheerio.load(htmlBlock)
