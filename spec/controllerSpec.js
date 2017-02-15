@@ -8,7 +8,7 @@ const controllerBuilder = require('../src/controller')
 
 describe('Controller', () => {
 
-  function createController(fetcher, writer, parserDef) {
+  function createController(fetcher, writer, parserDef, filter) {
     if (!fetcher) {
       fetcher = generateFakeForFetcher()
     }
@@ -20,7 +20,11 @@ describe('Controller', () => {
     if (!parserDef) {
       parserDef = generateFakeForParser()
     }
-    return controllerBuilder(fetcher, writer, parserDef)
+
+    if (!filter) {
+      filter = generateFakeForFilter()
+    }
+    return controllerBuilder(fetcher, writer, parserDef, filter)
   }
 
   describe('scrape', () => {
@@ -154,6 +158,15 @@ describe('Controller', () => {
       write(filename, content) {
         return Promise.resolve(filename)
       }
+    }
+  }
+
+  function generateFakeForFilter() {
+    return {
+      'by': 'title',
+      'include': [
+        'incendio', 'brigadistas'
+      ]
     }
   }
 })

@@ -1,0 +1,9 @@
+{
+  "by": "title",
+  "include": [
+    "incendio", "brigadistas", "incendiado", "catastrofe",
+    "quemado", "quemada", "quema",  "ayuda", "bosque",
+    "hectarea", "alerta", "alertar", "emergencia",
+    "acopio", "albergue" 
+  ]
+}
